@@ -1,9 +1,17 @@
 import React from 'react'
-import { Link, NavLink, Outlet, useParams } from "react-router-dom"
+import { Link, NavLink, Outlet, useParams , useLoaderData} from "react-router-dom"
+
+import { getHostVan } from "../../api"
+import { requireAuth } from '../../utils'
+
+export async function loader({request,  params }) {
+    await requireAuth(request)
+    return getHostVan(params.id)
+}
 
 export default function HostVanDetail() {
 
-    const { id } = useParams();
+    const currentVan = useLoaderData()
 
     const activeStyles = {
         fontWeight: "bold",
@@ -11,17 +19,7 @@ export default function HostVanDetail() {
         color: "#161616"
     }
 
-    const [currentVan, setCurrentVan] = React.useState(null)
 
-    React.useEffect(() => {
-        fetch(`/api/host/vans/${id}`).then(res => res.json()).then(res => {
-            setCurrentVan(res.vans)
-        })
-    }, [])
-
-    if (!currentVan) {
-        return <h1>Loading...</h1>
-    }
     return (
         <section>
             <Link

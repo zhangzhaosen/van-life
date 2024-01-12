@@ -1,6 +1,12 @@
 import React from "react"
-import {Link,  NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 export default function Header() {
+
+
+    function fakeLogOut() {
+        localStorage.removeItem("loggedin")
+    }
+    
     return <header>
         <Link className="site-logo" to="/">#VanLife</Link>
         <nav>
@@ -19,6 +25,14 @@ export default function Header() {
                     return isActive ? 'active-link' : ''
                 }}
             >Vans</NavLink>
+
+            <Link to="login" className="login-link">
+                <img
+                    src="../assets/images/avatar-icon.png"
+                    className="login-icon"
+                />
+            </Link>
+            <button onClick={fakeLogOut}>X</button>
         </nav>
     </header>
 }
